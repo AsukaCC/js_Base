@@ -5,22 +5,23 @@
  * @returns {Function} 返回一个防抖函数
  */
 
-function debounce(fn, delay, ...params1) {
+function debounce(fn, delay, ...params) {
   let timer = null;
   return function () {
       if (timer) clearTimeout(timer);
       timer = setTimeout(() => {
-      fn.apply(this, [...params1]);
+      fn.apply(this, [...params]);
     }, delay);
   };
 }
 
 let actionFn = function (a, b) {
   console.log('回调', a, b)
+  console.log(Date.now());
 }
 
-const cb = debounce(actionFn, 500, 'actionFn参数1', '参数2')
-// setInterval(cb, 1000)
+const cb1 = debounce(actionFn, 500, 'actionFn参数1', '参数2')
+// setInterval(cb1, 1000)
 
 /**
  * 节流函数
@@ -29,15 +30,17 @@ const cb = debounce(actionFn, 500, 'actionFn参数1', '参数2')
  * @returns {Function} 返回一个节流函数
  */
 
-function throttle(fn, delay, ...params1) {
-  let timer = null;
+function throttle(fn, time, ...params) {
+  let lastTime = 0;
   return function () {
-    if (timer) {
-      return;
+    let nowTime = Date.now();
+    if (nowTime - lastTime > time) {
+      fn.apply(this, [...params]);
+      lastTime = nowTime;
     }
-    timer = setTimeout(() => {
-      fn.apply(this, [...params1]);
-      timer = null;
-    }, delay);
+
   };
 }
+const cb2= throttle(actionFn, 2000, '123123', '参数2')
+
+setInterval(cb2, 10)
