@@ -70,4 +70,4 @@ function throttleLast(fn, delay, ...params) {
   };
 }
 
-setInterval(throttleLast(actionFn, 1000, 'actionFn参数1', '参数2'), 500)
+// setInterval(throttleLast(actionFn, 1000, 'actionFn参数1', '参数2'), 500)
